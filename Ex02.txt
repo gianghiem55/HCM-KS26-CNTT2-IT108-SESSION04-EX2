@@ -1,0 +1,21 @@
+PHẦN 1: PHÂN TÍCH
+Bước 1: Kiểm tra thư mục hiện tại
+   - Sử dụng lệnh Get-Location (hoặc alias pwd).
+   - Kết quả trả về C:\Users\<User>\Desktop, xác nhận bạn đang đứng tại thư mục Desktop chứ không phải thư mục chứa script.
+Bước 2: Liệt kê các file/thư mục hiện tại
+   - Sử dụng lệnh Get-ChildItem (hoặc alias dir / ls).
+   - Danh sách liệt kê không có file deploy.ps1. Điều này chứng minh lý do lệnh .\deploy.ps1 báo lỗi "Cannot find path" là do file không tồn tại ở thư mục hiện tại.
+Bước 3: Xác định vị trí thực tế và cơ chế bảo mật
+   - Vị trí thực tế của file nằm tại Downloads\Project.
+   - Cơ chế bảo mật của PowerShell: 
+     + PowerShell mặc định không tìm kiếm và chạy các lệnh/script trong thư mục hiện tại (Current Working Directory) nếu không chỉ định rõ đường dẫn. Điều này nhằm ngăn ngừa việc thực thi nhầm các file mã độc trùng tên với lệnh hệ thống.
+     + Do đó, bắt buộc phải dùng tiền tố .\ (ví dụ: .\deploy.ps1) để báo cho PowerShell biết bạn muốn chạy chính xác file nằm ở thư mục hiện tại.
+     + Nếu đứng sai thư mục, PowerShell tìm tại Desktop không thấy file deploy.ps1 nên lệnh chạy sẽ thất bại.
+
+PHẦN 2: SỬA LỖI (CHUỖI CÂU LỆNH POWERSHELL)
+Dòng 1: Di chuyển từ Desktop sang thư mục chứa file
+Set-Location ..\Downloads\Project
+Dòng 2: Kiểm tra xác nhận file deploy.ps1 có tồn tại
+Test-Path .\deploy.ps1
+Dòng 3: Thực thi file script
+.\deploy.ps1
